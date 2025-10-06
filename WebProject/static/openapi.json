@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Loan Application API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/accounts": {
+      "get": {
+        "summary": "Get all accounts",
+        "responses": {
+          "200": {
+            "description": "A list of accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Account" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Account" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Account added successfully" },
+          "400": { "description": "Bad Request" }
+        }
+      }
+    },
+    "/accounts/{account_id}": {
+      "delete": {
+        "summary": "Delete an account",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Account deleted" },
+          "404": { "description": "Account not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "account_id": { "type": "integer" },
+          "account_name": { "type": "string" },
+          "account_type": { "type": "string" },
+          "balance": { "type": "number", "format": "float" },
+          "pan_number": { "type": ["string", "null"] },
+          "tan_number": { "type": ["string", "null"] }
+        },
+        "required": ["account_id", "account_name", "account_type", "balance"]
+      }
+    }
+  }
+}
